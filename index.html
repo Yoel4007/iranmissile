@@ -52,10 +52,7 @@
             transition: transform 0.3s ease, color 0.3s ease;
         }
         .counter.animate::before {
-            transform: scale(1.1); /* Scale effect during animation */
-
-
-        }
+            transform: scale(1.1); /* Scale effect during animation */ }
         #OriginalmissileCountStockpile {
             color: #d32f2f;
         }
@@ -63,7 +60,7 @@
             color: #000000;
         }
 
-        }
+        
         #missileCountStockpile {
             color: #000000;
         }
@@ -106,14 +103,23 @@
 </head>
 <body>
     <div class="container">
+
  <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000">3000</div>
 
-        <h1>Iran Missile Stockpile</h1>
+       
+ <h1>Iran Current Missile Stockpile</h1>
         <div id="missileCountStockpile" class="counter" data-count="1560">1560</div>
-        <h1>Israel Destroyed</h1>
+        
+
+<h1>Iran Remaining Missile Stockpile</h1>
+        <div id="missileCountStockpile" class="counter" data-count="1560">51%</div>
+
+
+<h1>Israel Destroyed</h1>
         <div id="missileCountDestroyed" class="counter" data-count="1000">1000</div>
-        <h1>Iran Launched</h1>
+        
+<h1>Iran Launched</h1>
         <div id="missileCountLaunched" class="counter" data-count="440">440</div>
     </div>
 </body>
