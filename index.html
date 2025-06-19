@@ -53,6 +53,16 @@
         }
         .counter.animate::before {
             transform: scale(1.1); /* Scale effect during animation */
+
+
+        }
+        #OriginalmissileCountStockpile {
+            color: #d32f2f;
+        }
+            #OriginalmissileCountStockpile.animate::before {
+            color: #b71c1c;
+        }
+
         }
         #missileCountStockpile {
             color: #d32f2f;
@@ -96,6 +106,9 @@
 </head>
 <body>
     <div class="container">
+ <h1>Iran Original Missile Stockpile</h1>
+        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000">3000</div>
+
         <h1>Iran Missile Stockpile</h1>
         <div id="missileCountStockpile" class="counter" data-count="1560">1560</div>
         <h1>Israel Destroyed</h1>
