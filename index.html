@@ -67,7 +67,7 @@
         }
         .visit-counter {
             margin-top: 20px;
-            font-size: 0.9em; /* Set font size for all text in visits section */
+            font-size: 0.9em; /* Font size for all text in visits section */
             color: #333;
         }
         .visit-counter p {
@@ -77,7 +77,7 @@
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 20, 10:24 AM EDT</p>
+        <p class="last-update">Last Update: June 20, 10:51 AM EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
@@ -100,16 +100,16 @@
 
         <div class="visit-counter">
             <p>VISITS TO IRANMISSILE.COM June 20, 2025: <span id="visitCountToday">0</span></p>
-            <p>PAST HOUR: <span id="visitCountHour">0</span></p>
-            <p>PAST 24 HOURS: <span id="visitCount24Hours">0</span></p>
-            <p>PAST WEEK: <span id="visitCountWeek">0</span></p>
+            <p style="display: none;">PAST HOUR: <span id="visitCountHour">0</span></p>
+            <p style="display: none;">PAST 24 HOURS: <span id="visitCount24Hours">0</span></p>
+            <p style="display: none;">PAST WEEK: <span id="visitCountWeek">0</span></p>
         </div>
     </div>
 
     <script>
         // Initialize visit counters
         function initializeVisitCounters() {
-            const now = new Date('2025-06-20T10:24:00-04:00'); // Current time: June 20, 10:24 AM EDT
+            const now = new Date('2025-06-20T10:51:00-04:00'); // Current time: June 20, 10:51 AM EDT
             const todayStart = new Date(now);
             todayStart.setHours(0, 0, 0, 0); // Start of today
             const hourAgo = new Date(now.getTime() - 60 * 60 * 1000); // 1 hour ago
@@ -188,7 +188,7 @@
 
         // Animate all counters on page load
         document.querySelectorAll('.counter').forEach(counter => {
-            animateCounter(counter, 2000); // 2-second animation
+            animateCounter(counter, 2000)); // 2-second animation
         });
 
         // Optional: Function to update and re-animate a counter
