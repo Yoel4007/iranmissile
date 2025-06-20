@@ -58,22 +58,24 @@
         }
         .last-update {
             opacity: 0;
-            animation: fadeIn 1s ease-in forwards;
-            animation-delay: 5s; /* 5-second delay before fade-in */
+            animation: fadeInOut 2s ease-in-out infinite; /* Fade in and out every 2 seconds */
         }
-        @keyframes fadeIn {
-            from {
+        @keyframes fadeInOut {
+            0% {
                 opacity: 0;
             }
-            to {
+            50% {
                 opacity: 1;
+            }
+            100% {
+                opacity: 0;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 20, 09:49 AM EDT</p>
+        <p class="last-update">Last Update: June 20, 09:52 AM EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
