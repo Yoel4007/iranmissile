@@ -33,66 +33,23 @@
             font-size: 3em;
             font-weight: bold;
             display: inline-block;
-            min-width: 100px;
+            min-width: 100px; /* Prevents layout shift */
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            color: transparent;
-        }
-        .counter::before {
-            content: attr(data-count);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: inherit;
-            transform: translateY(100%);
-            animation: slide-in 2s ease-out forwards;
-        }
-        .counter.animate::before {
-            transform: scale(1.1);
         }
         #OriginalmissileCountStockpile {
-            color: #000000;
-        }
-        #OriginalmissileCountStockpile.animate::before {
             color: #000000;
         }
         #missileCountStockpile {
             color: #d32f2f;
         }
-        #missileCountStockpile.animate::before {
-            color: #b71c1c;
-        }
         #missileCountRemaining {
             color: #d32f2f;
-        }
-        #missileCountRemaining.animate::before {
-            color: #b71c1c;
         }
         #missileCountDestroyed {
             color: #1DAA61;
         }
-        #missileCountDestroyed.animate::before {
-            color: #1A8C4F;
-        }
         #missileCountLaunched {
             color: #939594;
-        }
-        #missileCountLaunched.animate::before {
-            color: #7A7B7C;
-        }
-        @keyframes slide-in {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(0); }
-        }
-        .counter {
-            animation: pulse 2s ease-out;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
         }
         .note {
             font-size: 0.9em;
@@ -105,19 +62,19 @@
     <div class="container">
         <p>Last Update: June 20, 8:45 EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
-        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
+        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">0</div>
 
         <h1>Iran Current Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="1540" aria-live="polite">1540</div>
+        <div id="missileCountStockpile" class="counter" data-count="1540" aria-live="polite">0</div>
 
         <h1>Iran Remaining Missile Stockpile</h1>
-        <div id="missileCountRemaining" class="counter" data-count="51%" aria-live="polite">51%</div>
+        <div id="missileCountRemaining" class="counter" data-count="51" aria-live="polite">0%</div>
 
         <h1>Israel Destroyed</h1>
-        <div id="missileCountDestroyed" class="counter" data-count="1000" aria-live="polite">1000</div>
+        <div id="missileCountDestroyed" class="counter" data-count="1000" aria-live="polite">0</div>
 
         <h1>Iran Launched</h1>
-        <div id="missileCountLaunched" class="counter" data-count="460" aria-live="polite">460</div>
+        <div id="missileCountLaunched" class="counter" data-count="460" aria-live="polite">0</div>
 
         <p class="note">
             Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.<br>
@@ -126,13 +83,41 @@
     </div>
 
     <script>
-        // Placeholder for dynamic updates
-        function updateCounter(id, count) {
+        // Function to animate number increment
+        function animateCounter(element, duration) {
+            const finalCount = parseFloat(element.getAttribute('data-count'));
+            const isPercentage = element.id === 'missileCountRemaining';
+            let start = 0;
+            const stepTime = 50; // Update every 50ms
+            const steps = duration / stepTime;
+            const increment = finalCount / steps;
+
+            const updateCounter = () => {
+                start += increment;
+                if (start >= finalCount) {
+                    start = finalCount;
+                    clearInterval(timer);
+                }
+                element.textContent = isPercentage 
+                    ? `${Math.round(start)}%`
+                    : Math.round(start);
+            };
+
+            const timer = setInterval(updateCounter, stepTime);
+            updateCounter(); // Initial update to avoid delay
+        }
+
+        // Animate all counters on page load
+        document.querySelectorAll('.counter').forEach(counter => {
+            animateCounter(counter, 2000); // 2-second animation
+        });
+
+        // Optional: Function to update and re-animate a counter
+        function updateCounter(id, newCount) {
             const element = document.getElementById(id);
-            element.setAttribute('data-count', count);
-            element.textContent = count;
-            element.classList.add('animate');
-            setTimeout(() => element.classList.remove('animate'), 300);
+            element.setAttribute('data-count', newCount);
+            element.textContent = element.id === 'missileCountRemaining' ? '0%' : '0';
+            animateCounter(element, 2000);
         }
         // Example usage: updateCounter('missileCountStockpile', 1500);
     </script>
