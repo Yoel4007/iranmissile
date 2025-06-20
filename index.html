@@ -60,21 +60,21 @@
 </head>
 <body>
     <div class="container">
-        <p>Last Update: June 20, 09:42 AM EDT</p>
+        <p>Last Update: June 20, 8:45 EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
-        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
+        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">0</div>
 
         <h1>Iran Current Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="1400" aria-live="polite">0</div>
+        <div id="missileCountStockpile" class="counter" data-count="1540" aria-live="polite">0</div>
 
         <h1>Iran Remaining Missile Stockpile</h1>
-        <div id="missileCountRemaining" class="counter" data-count="47" aria-live="polite">0%</div>
+        <div id="missileCountRemaining" class="counter" data-count="51" aria-live="polite">0%</div>
 
         <h1>Israel Destroyed</h1>
-        <div id="missileCountDestroyed" class="counter" data-count="1200" aria-live="polite">0</div>
+        <div id="missileCountDestroyed" class="counter" data-count="1000" aria-live="polite">0</div>
 
         <h1>Iran Launched</h1>
-        <div id="missileCountLaunched" class="counter" data-count="600" aria-live="polite">0</div>
+        <div id="missileCountLaunched" class="counter" data-count="460" aria-live="polite">0</div>
 
         <p class="note">
             Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.<br>
@@ -85,12 +85,6 @@
     <script>
         // Function to animate number increment
         function animateCounter(element, duration) {
-            // Skip animation for Original Missile Stockpile
-            if (element.id === 'OriginalmissileCountStockpile') {
-                element.textContent = element.getAttribute('data-count');
-                return;
-            }
-
             const finalCount = parseFloat(element.getAttribute('data-count'));
             const isPercentage = element.id === 'missileCountRemaining';
             let start = 0;
@@ -122,10 +116,10 @@
         function updateCounter(id, newCount) {
             const element = document.getElementById(id);
             element.setAttribute('data-count', newCount);
-            element.textContent = id === 'missileCountRemaining' ? '0%' : '0';
+            element.textContent = element.id === 'missileCountRemaining' ? '0%' : '0';
             animateCounter(element, 2000);
         }
-        // Example usage: updateCounter('missileCountStockpile', 1300);
+        // Example usage: updateCounter('missileCountStockpile', 1500);
     </script>
 </body>
 </html>
