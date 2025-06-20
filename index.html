@@ -61,23 +61,21 @@
             animation: fadeInOut 2s ease-in-out infinite; /* Fade in and out every 2 seconds */
         }
         @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        .visit-counter {
-            margin-top: 20px;
-            font-size: 0.9em; /* Font size for visits section, retained though hidden */
-            color: #333;
-        }
-        .visit-counter p {
-            margin: 5px 0; /* Add spacing between visit counter lines */
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 20, 12:26 PM EDT</p>
+        <p class="last-update">Last Update: June 20, 09:52 AM EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
@@ -97,21 +95,73 @@
             Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.<br>
             Sources: <a href="https://www.cnn.com">CNN</a>, <a href="https://www.nytimes.com">The New York Times</a>, <a href="https://www.thedrive.com/the-war-zone">The War Zone</a>, <a href="https://abcnews.go.com">ABC News</a>, <a href="https://www.idf.il/en">IDF</a>, <a href="https://news.usni.org">USNI News</a>, <a href="https://www.understandingwar.org">Institute for the Study of War (ISW)</a>.
         </p>
-
-        <div class="visit-counter" style="display: none;">
-            <p>VISITS TO IRANMISSILE.COM June 20, 2025: <span id="visitCountToday">0</span></p>
-            <p>PAST HOUR: <span id="visitCountHour">0</span></p>
-            <p>PAST 24 HOURS: <span id="visitCount24Hours">0</span></p>
-            <p>PAST WEEK: <span id="visitCountWeek">0</span></p>
-        </div>
     </div>
 
     <script>
-        // Initialize visit counters
-        function initializeVisitCounters() {
-            const now = new Date('2025-06-20T12:26:00-04:00'); // Current time: June 20, 12:26 PM EDT
-            const todayStart = new Date(now);
-            todayStart.setHours(0, 0, 0, 0); // Start of today
-            const hourAgo = new Date(now.getTime() - 60 * 60 * 1000); // 1 hour ago
-            const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 *
+        // Function to animate number increment or decrement
+        function animateCounter(element, duration) {
+            // Skip animation for Original Missile Stockpile
+            if (element.id === 'OriginalmissileCountStockpile') {
+                element.textContent = element.getAttribute('data-count');
+                return;
+            }
+
+            const finalCount = parseFloat(element.getAttribute('data-count'));
+            const isPercentage = element.id === 'missileCountRemaining';
+            let start;
+
+            // Set starting value based on counter ID
+            if (element.id === 'missileCountStockpile') {
+                start = 3000; // Start from 3,000 for Current Stockpile
+            } else if (element.id === 'missileCountRemaining') {
+                start = 100; // Start from 100% for Remaining Stockpile
+            } else {
+                start = 0; // Start from 0 for Destroyed and Launched
+            }
+
+            const stepTime = 50; // Update every 50ms
+            const steps = duration / stepTime;
+            const increment = (finalCount - start) / steps; // Can be negative for decrement
+
+            const updateCounter = () => {
+                start += increment;
+                // Stop at finalCount
+                if (increment < 0 && start <= finalCount) {
+                    start = finalCount;
+                    clearInterval(timer);
+                } else if (increment > 0 && start >= finalCount) {
+                    start = finalCount;
+                    clearInterval(timer);
+                }
+                element.textContent = isPercentage 
+                    ? `${Math.round(start)}%`
+                    : Math.round(start);
+            };
+
+            const timer = setInterval(updateCounter, stepTime);
+            updateCounter(); // Initial update to avoid delay
+        }
+
+        // Animate all counters on page load
+        document.querySelectorAll('.counter').forEach(counter => {
+            animateCounter(counter, 2000); // 2-second animation
+        });
+
+        // Optional: Function to update and re-animate a counter
+        function updateCounter(id, newCount) {
+            const element = document.getElementById(id);
+            element.setAttribute('data-count', newCount);
+            // Reset to appropriate starting value
+            if (id === 'missileCountStockpile') {
+                element.textContent = '3000';
+            } else if (id === 'missileCountRemaining') {
+                element.textContent = '100%';
+            } else {
+                element.textContent = '0';
+            }
+            animateCounter(element, 2000);
+        }
+        // Example usage: updateCounter('missileCountStockpile', 1200);
+    </script>
+</body>
+</html>
