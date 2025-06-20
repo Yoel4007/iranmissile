@@ -22,6 +22,7 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
         }
         h1 {
             font-size: 2.5em;
@@ -29,42 +30,45 @@
             margin: 10px 0;
         }
         .counter {
-            
             font-size: 3em;
             font-weight: bold;
             display: inline-block;
-            min-width: 100px; /* Prevents layout shift */
+            min-width: 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            color: transparent; /* Hide initial text */
+            color: transparent;
         }
         .counter::before {
-            content: attr(data-count); /* Use data-count for final number */
+            content: attr(data-count);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            color: inherit; /* Inherit color from parent */
-            transform: translateY(100%); /* Start below */
-            animation: slide-in 2s ease-out forwards; /* Slide up animation */
-            transition: transform 0.3s ease, color 0.3s ease;
+            color: inherit;
+            transform: translateY(100%);
+            animation: slide-in 2s ease-out forwards;
         }
         .counter.animate::before {
-            transform: scale(1.1); /* Scale effect during animation */ }
-        #OriginalmissileCountStockpile {
-            color:#000000;
+            transform: scale(1.1);
         }
-            #OriginalmissileCountStockpile.animate::before {
+        #OriginalmissileCountStockpile {
             color: #000000;
         }
-
-        
+        #OriginalmissileCountStockpile.animate::before {
+            color: #000000;
+        }
         #missileCountStockpile {
             color: #d32f2f;
         }
         #missileCountStockpile.animate::before {
+            color: #b71c1c;
+        }
+        #missileCountRemaining {
+            color: #d32f2f;
+        }
+        #missileCountRemaining.animate::before {
             color: #b71c1c;
         }
         #missileCountDestroyed {
@@ -80,54 +84,57 @@
             color: #7A7B7C;
         }
         @keyframes slide-in {
-            0% {
-                transform: translateY(100%);
-            }
-            100% {
-                transform: translateY(0);
-            }
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(0); }
         }
-        /* Trigger animation on page load */
         .counter {
             animation: pulse 2s ease-out;
         }
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .note {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-Last Update: June 20, 8:45 EDT<br>
+        <p>Last Update: June 20, 8:45 EDT</p>
+        <h1>Iran Original Missile Stockpile</h1>
+        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
- <h1>Iran Original Missile Stockpile</h1>
-        <div id="OriginalmissileCountStockpile" class="counter" data-count="3000">3000</div>
+        <h1>Iran Current Missile Stockpile</h1>
+        <div id="missileCountStockpile" class="counter" data-count="1540" aria-live="polite">1540</div>
 
-       
- <h1>Iran Current Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="1540">1540</div>
-        
+        <h1>Iran Remaining Missile Stockpile</h1>
+        <div id="missileCountRemaining" class="counter" data-count="51%" aria-live="polite">51%</div>
 
-<h1>Iran Remaining Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="51%">51%</div>
+        <h1>Israel Destroyed</h1>
+        <div id="missileCountDestroyed" class="counter" data-count="1000" aria-live="polite">1000</div>
 
+        <h1>Iran Launched</h1>
+        <div id="missileCountLaunched" class="counter" data-count="460" aria-live="polite">460</div>
 
-<h1>Israel Destroyed</h1>
-        <div id="missileCountDestroyed" class="counter" data-count="1000">1000</div>
-        
-<h1>Iran Launched</h1>
-        <div id="missileCountLaunched" class="counter" data-count="460">460</div>
-
-<br><br><br>
-Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.
-<br>
-Sources: CNN, The New York Times, The War Zone, ABC News, IDF, USNI News, Institute for the Study of War (ISW).
+        <p class="note">
+            Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.<br>
+            Sources: <a href="https://www.cnn.com">CNN</a>, <a href="https://www.nytimes.com">The New York Times</a>, <a href="https://www.thedrive.com/the-war-zone">The War Zone</a>, <a href="https://abcnews.go.com">ABC News</a>, <a href="https://www.idf.il/en">IDF</a>, <a href="https://news.usni.org">USNI News</a>, <a href="https://www.understandingwar.org">Institute for the Study of War (ISW)</a>.
+        </p>
     </div>
 
+    <script>
+        // Placeholder for dynamic updates
+        function updateCounter(id, count) {
+            const element = document.getElementById(id);
+            element.setAttribute('data-count', count);
+            element.textContent = count;
+            element.classList.add('animate');
+            setTimeout(() => element.classList.remove('animate'), 300);
+        }
+        // Example usage: updateCounter('missileCountStockpile', 1500);
+    </script>
 </body>
 </html>
