@@ -67,14 +67,17 @@
         }
         .visit-counter {
             margin-top: 20px;
-            font-size: 1.2em;
+            font-size: 0.9em; /* Set font size for all text in visits section */
             color: #333;
+        }
+        .visit-counter p {
+            margin: 5px 0; /* Add spacing between visit counter lines */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 20, 10:17 AM EDT</p>
+        <p class="last-update">Last Update: June 20, 10:24 AM EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
@@ -96,30 +99,48 @@
         </p>
 
         <div class="visit-counter">
-            Total Website Visits: <span id="visitCount">0</span>
+            <p>VISITS TO IRANMISSILE.COM June 20, 2025: <span id="visitCountToday">0</span></p>
+            <p>PAST HOUR: <span id="visitCountHour">0</span></p>
+            <p>PAST 24 HOURS: <span id="visitCount24Hours">0</span></p>
+            <p>PAST WEEK: <span id="visitCountWeek">0</span></p>
         </div>
     </div>
 
     <script>
-        // Initialize visit counter
-        function initializeVisitCounter() {
-            const visitCountElement = document.getElementById('visitCount');
-            // Check if this session has already counted
+        // Initialize visit counters
+        function initializeVisitCounters() {
+            const now = new Date('2025-06-20T10:24:00-04:00'); // Current time: June 20, 10:24 AM EDT
+            const todayStart = new Date(now);
+            todayStart.setHours(0, 0, 0, 0); // Start of today
+            const hourAgo = new Date(now.getTime() - 60 * 60 * 1000); // 1 hour ago
+            const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 1 week ago
+
+            // Get or initialize visit timestamps from localStorage
+            let visits = JSON.parse(localStorage.getItem('visitTimestamps') || '[]');
+
+            // Increment counter if this session hasn't been counted
             if (!sessionStorage.getItem('visitCounted')) {
-                // Increment shared counter in localStorage
-                let totalVisits = parseInt(localStorage.getItem('totalVisits') || '0', 10);
-                totalVisits += 1;
-                localStorage.setItem('totalVisits', totalVisits);
-                // Mark this session as counted
+                visits.push(now.getTime());
+                localStorage.setItem('visitTimestamps', JSON.stringify(visits));
                 sessionStorage.setItem('visitCounted', 'true');
             }
-            // Display the total visits
-            const totalVisits = localStorage.getItem('totalVisits') || '0';
-            visitCountElement.textContent = totalVisits;
+
+            // Filter visits by time period
+            const visitsToday = visits.filter(timestamp => new Date(timestamp) >= todayStart).length;
+            const visitsHour = visits.filter(timestamp => new Date(timestamp) >= hourAgo).length;
+            const visits24Hours = visits.filter(timestamp => new Date(timestamp) >= dayAgo).length;
+            const visitsWeek = visits.filter(timestamp => new Date(timestamp) >= weekAgo).length;
+
+            // Update display
+            document.getElementById('visitCountToday').textContent = visitsToday;
+            document.getElementById('visitCountHour').textContent = visitsHour;
+            document.getElementById('visitCount24Hours').textContent = visits24Hours;
+            document.getElementById('visitCountWeek').textContent = visitsWeek;
         }
 
-        // Run visit counter on page load
-        initializeVisitCounter();
+        // Run visit counters on page load
+        initializeVisitCounters();
 
         // Function to animate number increment or decrement
         function animateCounter(element, duration) {
