@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missile Count Tracker</title>
+    <title>Missile and Nuclear Sites Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -36,13 +36,13 @@
             min-width: 100px; /* Prevents layout shift */
             text-align: center;
         }
-        #OriginalmissileCountStockpile {
+        #OriginalmissileCountStockpile, #nuclearSitesCount {
             color: #000000;
         }
-        #missileCountStockpile {
+        #missileCountStockpile, #nuclearDestroyedCount {
             color: #d32f2f;
         }
-        #missileCountRemaining {
+        #missileCountRemaining, #nuclearRemainingCount {
             color: #d32f2f;
         }
         #missileCountDestroyed {
@@ -79,23 +79,32 @@
         <h1>Iran Remaining Missile Stockpile</h1>
         <div id="missileCountRemaining" class="counter" data-count="35" aria-live="polite">100%</div>
 
-        <h1>Israel Destroyed</h1>
+        <h1>Israel Destroyed Missiles</h1>
         <div id="missileCountDestroyed" class="counter" data-count="1250" aria-live="polite">0</div>
 
-        <h1>Iran Launched</h1>
+        <h1>Iran Launched Missiles</h1>
         <div id="missileCountLaunched" class="counter" data-count="700" aria-live="polite">0</div>
 
+        <h1>Iran Nuclear Sites</h1>
+        <div id="nuclearSitesCount" class="counter" data-count="10" aria-live="polite">10</div>
+
+        <h1>Iran Nuclear Sites Destroyed</h1>
+        <div id="nuclearDestroyedCount" class="counter" data-count="4" aria-live="polite">0</div>
+
+        <h1>Iran Nuclear Sites Remaining</h1>
+        <div id="nuclearRemainingCount" class="counter" data-count="6" aria-live="polite">0</div>
+
         <p class="note">
-            Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile program and varying estimates.<br>
-            Sources: <a href="https://www.cnn.com">CNN</a>, <a href="https://www.nytimes.com">The New York Times</a>, <a href="https://www.thedrive.com/the-war-zone">The War Zone</a>, <a href="https://www.abcnews.go.com">ABC News</a>, <a href="https://www.idf.il/en">IDF</a>, <a href="https://news.usni.org">USNI News</a>, <a href="https://www.understandingwar.org">Institute for the Study of War (ISW)</a>.
+            Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile and nuclear programs and varying estimates.<br>
+            Sources: <a href="https://www.cnn.com">CNN</a>, <a href="https://www.nytimes.com">The New York Times</a>, <a href="https://www.thedrive.com/the-war-zone">The War Zone</a>, <a href="https://www.abcnews.go.com">ABC News</a>, <a href="https://www.idf.il/en">IDF</a>, <a href="https://www.iaea.org">IAEA</a>, <a href="https://www.understandingwar.org">Institute for the Study of War (ISW)</a>.
         </p>
     </div>
 
     <script>
         // Function to animate number increment or decrement
         function animateCounter(element, duration) {
-            // Skip animation for Original Missile Stockpile
-            if (element.id === 'OriginalmissileCountStockpile') {
+            // Skip animation for Original Missile Stockpile and Nuclear Sites
+            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount') {
                 element.textContent = element.getAttribute('data-count');
                 return;
             }
@@ -106,11 +115,13 @@
 
             // Set starting value based on counter ID
             if (element.id === 'missileCountStockpile') {
-                start = 3000; // Start from 3,000 for Current Stockpile
+                start = 3000; // Start from 3,000 for Current Missile Stockpile
             } else if (element.id === 'missileCountRemaining') {
-                start = 100; // Start from 100% for Remaining Stockpile
-            } else {
-                start = 0; // Start from 0 for Destroyed and Launched
+                start = 100; // Start from 100% for Remaining Missile Stockpile
+            } else if (element.id === 'nuclearDestroyedCount' || element.id === 'nuclearRemainingCount') {
+                start = 0; // Start from 0 for Nuclear Destroyed and Remaining
+            } else if (element.id === 'missileCountDestroyed' || element.id === 'missileCountLaunched') {
+                start = 0; // Start from 0 for Destroyed and Launched Missiles
             }
 
             const stepTime = 50; // Update every 50ms
@@ -150,12 +161,12 @@
                 element.textContent = '3000';
             } else if (id === 'missileCountRemaining') {
                 element.textContent = '100%';
-            } else {
+            } else if (id === 'nuclearDestroyedCount' || id === 'nuclearRemainingCount' || id === 'missileCountDestroyed' || id === 'missileCountLaunched') {
                 element.textContent = '0';
             }
             animateCounter(element, 2000);
         }
-        // Example usage: updateCounter('missileCountStockpile', 1050);
+        // Example usage: updateCounter('nuclearDestroyedCount', 5);
     </script>
 </body>
 </html>
