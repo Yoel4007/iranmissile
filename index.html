@@ -39,14 +39,14 @@
         #OriginalmissileCountStockpile, #nuclearSitesCount {
             color: #000000;
         }
-        #missileCountStockpile, #nuclearDestroyedCount {
+        #missileCountStockpile {
             color: #d32f2f;
         }
         #missileCountRemaining, #nuclearRemainingCount {
             color: #d32f2f;
         }
-        #missileCountDestroyed {
-            color: #1DAA61;
+        #missileCountDestroyed, #nuclearDestroyedCount {
+            color: #1DAA61; /* Green for destroyed counts */
         }
         #missileCountLaunched {
             color: #939594;
@@ -85,88 +85,5 @@
         <h1>Iran Launched Missiles</h1>
         <div id="missileCountLaunched" class="counter" data-count="700" aria-live="polite">0</div>
 
-        <h1>Iran Nuclear Sites</h1>
-        <div id="nuclearSitesCount" class="counter" data-count="10" aria-live="polite">10</div>
-
-        <h1>Iran Nuclear Sites Destroyed</h1>
-        <div id="nuclearDestroyedCount" class="counter" data-count="4" aria-live="polite">0</div>
-
-        <h1>Iran Nuclear Sites Remaining</h1>
-        <div id="nuclearRemainingCount" class="counter" data-count="6" aria-live="polite">0</div>
-
-        <p class="note">
-            Note: Data is collected from multiple sources and may not be 100% accurate due to Iran’s secretive missile and nuclear programs and varying estimates.<br>
-            Sources: <a href="https://www.cnn.com">CNN</a>, <a href="https://www.nytimes.com">The New York Times</a>, <a href="https://www.thedrive.com/the-war-zone">The War Zone</a>, <a href="https://www.abcnews.go.com">ABC News</a>, <a href="https://www.idf.il/en">IDF</a>, <a href="https://www.iaea.org">IAEA</a>, <a href="https://www.understandingwar.org">Institute for the Study of War (ISW)</a>.
-        </p>
-    </div>
-
-    <script>
-        // Function to animate number increment or decrement
-        function animateCounter(element, duration) {
-            // Skip animation for Original Missile Stockpile and Nuclear Sites
-            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount') {
-                element.textContent = element.getAttribute('data-count');
-                return;
-            }
-
-            const finalCount = parseFloat(element.getAttribute('data-count'));
-            const isPercentage = element.id === 'missileCountRemaining';
-            let start;
-
-            // Set starting value based on counter ID
-            if (element.id === 'missileCountStockpile') {
-                start = 3000; // Start from 3,000 for Current Missile Stockpile
-            } else if (element.id === 'missileCountRemaining') {
-                start = 100; // Start from 100% for Remaining Missile Stockpile
-            } else if (element.id === 'nuclearDestroyedCount' || element.id === 'nuclearRemainingCount') {
-                start = 0; // Start from 0 for Nuclear Destroyed and Remaining
-            } else if (element.id === 'missileCountDestroyed' || element.id === 'missileCountLaunched') {
-                start = 0; // Start from 0 for Destroyed and Launched Missiles
-            }
-
-            const stepTime = 50; // Update every 50ms
-            const steps = duration / stepTime;
-            const increment = (finalCount - start) / steps; // Can be negative for decrement
-
-            const updateCounter = () => {
-                start += increment;
-                // Stop at finalCount
-                if (increment < 0 && start <= finalCount) {
-                    start = finalCount;
-                    clearInterval(timer);
-                } else if (increment > 0 && start >= finalCount) {
-                    start = finalCount;
-                    clearInterval(timer);
-                }
-                element.textContent = isPercentage 
-                    ? `${Math.round(start)}%`
-                    : Math.round(start);
-            };
-
-            const timer = setInterval(updateCounter, stepTime);
-            updateCounter(); // Initial update to avoid delay
-        }
-
-        // Animate all counters on page load
-        document.querySelectorAll('.counter').forEach(counter => {
-            animateCounter(counter, 2000); // 2-second animation
-        });
-
-        // Optional: Function to update and re-animate a counter
-        function updateCounter(id, newCount) {
-            const element = document.getElementById(id);
-            element.setAttribute('data-count', newCount);
-            // Reset to appropriate starting value
-            if (id === 'missileCountStockpile') {
-                element.textContent = '3000';
-            } else if (id === 'missileCountRemaining') {
-                element.textContent = '100%';
-            } else if (id === 'nuclearDestroyedCount' || id === 'nuclearRemainingCount' || id === 'missileCountDestroyed' || id === 'missileCountLaunched') {
-                element.textContent = '0';
-            }
-            animateCounter(element, 2000);
-        }
-        // Example usage: updateCounter('nuclearDestroyedCount', 5);
-    </script>
-</body>
-</html>
+        <h1>Iran Original Nuclear Sites</h1>
+        <div id="nuclearSitesCount" class="counter" data-count="10" aria-live
