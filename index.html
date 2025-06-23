@@ -50,7 +50,7 @@
         #OriginalmissileCountStockpile, #nuclearSitesCount {
             color: #000000;
         }
-        #missileCountStockpile {
+        #missileCountStockpile, #missileLauncherRemaining {
             color: #d32f2f;
         }
         #missileCountRemaining, #nuclearRemainingCount {
@@ -80,12 +80,12 @@
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 23, 2025, 06:27 AM EDT</p>
+        <p class="last-update">Last Update: June 23, 2025, 04:18 PM EDT</p>
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
         <h1>Iran Current Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="964" aria-live="polite">3000</div>
+        <div id="missileCountStockpile" class="counter" data-count="950" aria-live="polite">3000</div>
 
         <h1>Iran Remaining Missile Stockpile</h1>
         <div id="missileCountRemaining" class="counter" data-count="32" aria-live="polite">100%</div>
@@ -94,7 +94,10 @@
         <div id="missileCountDestroyed" class="counter" data-count="1251" aria-live="polite">0</div>
 
         <h1>Iran Launched Missiles</h1>
-        <div id="missileCountLaunched" class="counter" data-count="786" aria-live="polite">0</div>
+        <div id="missileCountLaunched" class="counter" data-count="800" aria-live="polite">0</div>
+
+        <h1>Iran Remaining Missile Launchers</h1>
+        <div id="missileLauncherRemaining" class="counter" data-count="40" aria-live="polite">100%</div>
 
         <h1>Iran Original Nuclear Sites</h1>
         <div id="nuclearSitesCount" class="counter" data-count="10" aria-live="polite">10</div>
@@ -121,14 +124,14 @@
             }
 
             const finalCount = parseFloat(element.getAttribute('data-count'));
-            const isPercentage = element.id === 'missileCountRemaining';
+            const isPercentage = element.id === 'missileCountRemaining' || element.id === 'missileLauncherRemaining';
             let start;
 
             // Set starting value based on counter ID
             if (element.id === 'missileCountStockpile') {
                 start = 3000; // Start from 3,000 for Current Missile Stockpile
-            } else if (element.id === 'missileCountRemaining') {
-                start = 100; // Start from 100% for Remaining Missile Stockpile
+            } else if (element.id === 'missileCountRemaining' || element.id === 'missileLauncherRemaining') {
+                start = 100; // Start from 100% for Remaining Missile Stockpile and Launchers
             } else if (element.id === 'nuclearDestroyedCount' || element.id === 'nuclearRemainingCount' || element.id === 'missileCountDestroyed' || element.id === 'missileCountLaunched') {
                 start = 0; // Start from 0 for Nuclear Destroyed, Remaining, Destroyed Missiles, Launched Missiles
             }
@@ -168,7 +171,7 @@
             // Reset to appropriate starting value
             if (id === 'missileCountStockpile') {
                 element.textContent = '3000';
-            } else if (id === 'missileCountRemaining') {
+            } else if (id === 'missileCountRemaining' || id === 'missileLauncherRemaining') {
                 element.textContent = '100%';
             } else if (id === 'nuclearDestroyedCount' || id === 'nuclearRemainingCount' || id === 'missileCountDestroyed' || id === 'missileCountLaunched') {
                 element.textContent = '0';
