@@ -47,10 +47,10 @@
             min-width: 100px; /* Prevents layout shift */
             text-align: center;
         }
-        #OriginalmissileCountStockpile, #nuclearSitesCount {
+        #OriginalmissileCountStockpile, #nuclearSitesCount, #OriginalmissileLauncherCount {
             color: #000000;
         }
-        #missileCountStockpile, #missileLauncherRemaining {
+        #missileCountStockpile, #missileLauncherRemaining, #missileLauncherCurrent, #ceasefireTimer {
             color: #d32f2f;
         }
         #missileCountRemaining, #nuclearRemainingCount {
@@ -80,7 +80,10 @@
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 23, 2025, 04:18 PM EDT</p>
+        <p class="last-update">Last Update: June 23, 2025, 08:40 PM EDT</p>
+        <h1>Israel and Iran Ceasefire</h1>
+        <div id="ceasefireTimer" class="counter" aria-live="polite">0d 0h 0m 0s</div>
+
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
@@ -95,6 +98,12 @@
 
         <h1>Iran Launched Missiles</h1>
         <div id="missileCountLaunched" class="counter" data-count="800" aria-live="polite">0</div>
+
+        <h1>Iran Original Missile Launchers</h1>
+        <div id="OriginalmissileLauncherCount" class="counter" data-count="360" aria-live="polite">360</div>
+
+        <h1>Iran Current Missile Launchers</h1>
+        <div id="missileLauncherCurrent" class="counter" data-count="144" aria-live="polite">360</div>
 
         <h1>Iran Remaining Missile Launchers</h1>
         <div id="missileLauncherRemaining" class="counter" data-count="40" aria-live="polite">100%</div>
@@ -117,8 +126,8 @@
     <script>
         // Function to animate number increment or decrement
         function animateCounter(element, duration) {
-            // Skip animation for Original Missile Stockpile and Nuclear Sites
-            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount') {
+            // Skip animation for Original Missile Stockpile, Original Missile Launchers, and Nuclear Sites
+            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount' || element.id === 'OriginalmissileLauncherCount') {
                 element.textContent = element.getAttribute('data-count');
                 return;
             }
@@ -130,6 +139,8 @@
             // Set starting value based on counter ID
             if (element.id === 'missileCountStockpile') {
                 start = 3000; // Start from 3,000 for Current Missile Stockpile
+            } else if (element.id === 'missileLauncherCurrent') {
+                start = 360; // Start from 360 for Current Missile Launchers
             } else if (element.id === 'missileCountRemaining' || element.id === 'missileLauncherRemaining') {
                 start = 100; // Start from 100% for Remaining Missile Stockpile and Launchers
             } else if (element.id === 'nuclearDestroyedCount' || element.id === 'nuclearRemainingCount' || element.id === 'missileCountDestroyed' || element.id === 'missileCountLaunched') {
@@ -159,10 +170,35 @@
             updateCounter(); // Initial update to avoid delay
         }
 
+        // Function to update ceasefire timer
+        function updateCeasefireTimer() {
+            const startTime = new Date('2025-06-23T20:30:00-04:00'); // June 23, 2025, 8:30 PM EDT
+            const now = new Date();
+            const diff = now - startTime; // Difference in milliseconds
+
+            if (diff < 0) {
+                document.getElementById('ceasefireTimer').textContent = 'Ceasefire not yet started';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('ceasefireTimer').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
         // Animate all counters on page load
         document.querySelectorAll('.counter').forEach(counter => {
-            animateCounter(counter, 2000); // 2-second animation for all counters
+            if (counter.id !== 'ceasefireTimer') {
+                animateCounter(counter, 2000); // 2-second animation for all counters except ceasefire timer
+            }
         });
+
+        // Start ceasefire timer
+        updateCeasefireTimer();
+        setInterval(updateCeasefireTimer, 1000); // Update every second
 
         // Optional: Function to update and re-animate a counter
         function updateCounter(id, newCount) {
@@ -171,8 +207,12 @@
             // Reset to appropriate starting value
             if (id === 'missileCountStockpile') {
                 element.textContent = '3000';
+            } else if (id === 'missileLauncherCurrent') {
+                element.textContent = '360';
             } else if (id === 'missileCountRemaining' || id === 'missileLauncherRemaining') {
                 element.textContent = '100%';
+            } else if (id === 'OriginalmissileCountStockpile' || id === 'OriginalmissileLauncherCount') {
+                element.textContent = newCount; // No animation for original counts
             } else if (id === 'nuclearDestroyedCount' || id === 'nuclearRemainingCount' || id === 'missileCountDestroyed' || id === 'missileCountLaunched') {
                 element.textContent = '0';
             }
