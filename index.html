@@ -80,9 +80,9 @@
 </head>
 <body>
     <div class="container">
-        <p class="last-update">Last Update: June 23, 2025, 08:40 PM EDT</p>
+        <p class="last-update">Last Update: June 23, 2025, 10:14 PM EDT</p>
         <h1>Israel and Iran Ceasefire</h1>
-        <div id="ceasefireTimer" class="counter" aria-live="polite">0d 0h 0m 0s</div>
+        <div id="ceasefireTimer" class="counter" aria-live="polite">Ceasefire Duration: 0d 1h 44m 0s</div>
 
         <h1>Iran Original Missile Stockpile</h1>
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
@@ -126,9 +126,9 @@
     <script>
         // Function to animate number increment or decrement
         function animateCounter(element, duration) {
-            // Skip animation for Original Missile Stockpile, Original Missile Launchers, and Nuclear Sites
-            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount' || element.id === 'OriginalmissileLauncherCount') {
-                element.textContent = element.getAttribute('data-count');
+            // Skip animation for Original Missile Stockpile, Original Missile Launchers, Nuclear Sites, and Ceasefire Timer
+            if (element.id === 'OriginalmissileCountStockpile' || element.id === 'nuclearSitesCount' || element.id === 'OriginalmissileLauncherCount' || element.id === 'ceasefireTimer') {
+                element.textContent = element.getAttribute('data-count') || element.textContent;
                 return;
             }
 
@@ -170,35 +170,10 @@
             updateCounter(); // Initial update to avoid delay
         }
 
-        // Function to update ceasefire timer
-        function updateCeasefireTimer() {
-            const startTime = new Date('2025-06-23T20:30:00-04:00'); // June 23, 2025, 8:30 PM EDT
-            const now = new Date();
-            const diff = now - startTime; // Difference in milliseconds
-
-            if (diff < 0) {
-                document.getElementById('ceasefireTimer').textContent = 'Ceasefire not yet started';
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('ceasefireTimer').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-
         // Animate all counters on page load
         document.querySelectorAll('.counter').forEach(counter => {
-            if (counter.id !== 'ceasefireTimer') {
-                animateCounter(counter, 2000); // 2-second animation for all counters except ceasefire timer
-            }
+            animateCounter(counter, 2000); // 2-second animation for all counters
         });
-
-        // Start ceasefire timer
-        updateCeasefireTimer();
-        setInterval(updateCeasefireTimer, 1000); // Update every second
 
         // Optional: Function to update and re-animate a counter
         function updateCounter(id, newCount) {
@@ -211,8 +186,8 @@
                 element.textContent = '360';
             } else if (id === 'missileCountRemaining' || id === 'missileLauncherRemaining') {
                 element.textContent = '100%';
-            } else if (id === 'OriginalmissileCountStockpile' || id === 'OriginalmissileLauncherCount') {
-                element.textContent = newCount; // No animation for original counts
+            } else if (id === 'OriginalmissileCountStockpile' || id === 'OriginalmissileLauncherCount' || id === 'ceasefireTimer') {
+                element.textContent = newCount; // No animation for original counts or ceasefire timer
             } else if (id === 'nuclearDestroyedCount' || id === 'nuclearRemainingCount' || id === 'missileCountDestroyed' || id === 'missileCountLaunched') {
                 element.textContent = '0';
             }
