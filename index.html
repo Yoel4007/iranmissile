@@ -77,11 +77,28 @@
             50% { opacity: 1; }
             100% { opacity: 0; }
         }
+        .logo {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
+    <div class="logo">
+        <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" fill="#2d3e50"/>
+            <g>
+                <rect x="12" y="40" width="8" height="16" fill="#4caf50"/>
+                <rect x="28" y="32" width="8" height="24" fill="#ffeb3b"/>
+                <rect x="44" y="24" width="8" height="32" fill="#f44336"/>
+                <circle cx="52" cy="12" r="6" fill="#fff"/>
+                <text x="50" y="16" font-size="12" fill="#2d3e50" font-family="Arial" text-anchor="middle">☢️</text>
+            </g>
+        </svg>
+    </div>
     <div class="container">
-        <p class="last-update">Last Update: June 23, 2025, 10:17 PM EDT</p>
+        <p class="last-update">Last Update: June 27, 2025, 07:56 AM EDT</p>
         <h1>Israel and Iran Ceasefire Lasted</h1>
         <div id="ceasefireTimer" class="counter" aria-live="polite">0d 1h 47m 0s</div>
 
@@ -89,16 +106,16 @@
         <div id="OriginalmissileCountStockpile" class="counter" data-count="3000" aria-live="polite">3000</div>
 
         <h1>Iran Current Missile Stockpile</h1>
-        <div id="missileCountStockpile" class="counter" data-count="950" aria-live="polite">3000</div>
+        <div id="missileCountStockpile" class="counter" data-count="935" aria-live="polite">3000</div>
 
         <h1>Iran Remaining Missile Stockpile</h1>
-        <div id="missileCountRemaining" class="counter" data-count="32" aria-live="polite">100%</div>
+        <div id="missileCountRemaining" class="counter" data-count="31" aria-live="polite">100%</div>
 
         <h1>Israel Destroyed Missiles</h1>
         <div id="missileCountDestroyed" class="counter" data-count="1251" aria-live="polite">0</div>
 
         <h1>Iran Launched Missiles</h1>
-        <div id="missileCountLaunched" class="counter" data-count="800" aria-live="polite">0</div>
+        <div id="missileCountLaunched" class="counter" data-count="814" aria-live="polite">0</div>
 
         <h1>Iran Original Missile Launchers</h1>
         <div id="OriginalmissileLauncherCount" class="counter" data-count="360" aria-live="polite">360</div>
